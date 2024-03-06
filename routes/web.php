@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LinkController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/404', function () {
+    return response()->view('errors.404', [], 404);
 });
+
+Route::get('/', [LinkController::class, 'createForm'])->name('create.form');
+
+Route::post('/create', [LinkController::class, 'store'])->name('links.store');
+
+Route::get('/{token}', [LinkController::class, 'redirect'])->name('redirect');
